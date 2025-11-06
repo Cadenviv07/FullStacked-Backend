@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @Validated
 //All methods inside the class will have /auth as their url
-@RequestMapping("/auth")
+@RequestMapping("/api/auth")
 public class AuthController {
 
     @Autowired
@@ -49,11 +49,17 @@ public class AuthController {
         user.setRole("ROLE_USER");//set default role 
         user.setEnable(false);
         userRepository.save(user);//save user 
-
-        verificationService.createVerificationCode(user);
-
-        return "User registered successfully!";
     }
+
+    @PostMapping("/sendVerification")
+    public ResponseEntity<String> sendVerification(@RequestBody EmailRequest emailRequest) {
+        User user = userRepository.findByEmail(emailRequest.getEmail())
+                .orElseThrow(() -> new RuntimeException("User not found"));
+        
+        verificationService.createVerificationCode(user);
+        return ResponseEntity.ok("Verification email sent!");
+    }
+
 
     @PostMapping("/verify")
     public ResponseEntity<String> verifyCode(@RequestBody VerifyRequest verifyRequest){
@@ -61,9 +67,9 @@ public class AuthController {
         boolean isVerified = verificationService.verifyCode(verifyRequest.getEmail(), verifyRequest.getCode());
 
         if(isVerified){
-            return ResponseEntity.ok("Email verified");
+            return ResponseEntity.ok(Map.of("message", "Email verified"));
         }else{
-            return ResponseEntity.badRequest().body("Invalid or expired verification code");
+            return ResponseEntity.badRequest().body(Map.of("error", "Invalid or expired verification code"));
         }
 
     }
