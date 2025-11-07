@@ -11,8 +11,6 @@ import com.caden.fitnessapp.fullStacked.Repository.UserRepository;
 import com.caden.fitnessapp.fullStacked.dto.SignupRequest;
 import com.caden.fitnessapp.fullStacked.dto.VerifyRequest;
 
-import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -24,7 +22,7 @@ import org.springframework.web.bind.annotation.*;
 @Validated
 //All methods inside the class will have /auth as their url
 @RequestMapping("/api/auth")
-public class authController {
+public class AuthController {
 
     @Autowired
     private UserRepository userRepository;
@@ -34,7 +32,7 @@ public class authController {
 
      private final VerificationService verificationService;
 
-    public authController(VerificationService verificationService) {
+    public AuthController(VerificationService verificationService) {
         this.verificationService = verificationService;
     }
 
@@ -51,13 +49,11 @@ public class authController {
         user.setRole("ROLE_USER");//set default role 
         user.setEnable(false);
         userRepository.save(user);//save user 
-
-        return "User registered succesfully";
     }
 
     @PostMapping("/sendVerification")
-    public ResponseEntity<String> sendVerification(@RequestBody VerifyRequest verifyRequest) {
-        User user = userRepository.findByEmail(verifyRequest.getEmail())
+    public ResponseEntity<String> sendVerification(@RequestBody EmailRequest emailRequest) {
+        User user = userRepository.findByEmail(emailRequest.getEmail())
                 .orElseThrow(() -> new RuntimeException("User not found"));
         
         verificationService.createVerificationCode(user);
@@ -66,7 +62,7 @@ public class authController {
 
 
     @PostMapping("/verify")
-    public ResponseEntity<Map<String, String>> verifyCode(@RequestBody VerifyRequest verifyRequest){
+    public ResponseEntity<String> verifyCode(@RequestBody VerifyRequest verifyRequest){
 
         boolean isVerified = verificationService.verifyCode(verifyRequest.getEmail(), verifyRequest.getCode());
 
