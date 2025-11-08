@@ -43,7 +43,7 @@ public class authController {
 
     //This method is triggered by a POST request to /auth/register
     @PostMapping("/register")
-    public String register(@Valid @RequestBody SignupRequest signupRequest) {
+    public ResponseEntity<Map<String, String>> register(@Valid @RequestBody SignupRequest signupRequest) {
         User user = new User();
         user.setUsername(signupRequest.getUsername());
         user.setPassword(passwordEncoder.encode(signupRequest.getPassword()));//Encrypts password
@@ -52,7 +52,7 @@ public class authController {
         user.setEnable(false);
         userRepository.save(user);//save user 
 
-        return "User registered succesfully";
+        return ResponseEntity.ok(Map.of("message", "Register succsefull"));
     }
 
     @PostMapping("/sendVerification")

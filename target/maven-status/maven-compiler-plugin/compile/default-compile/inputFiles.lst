@@ -11,7 +11,7 @@ C:\Users\cva70\OneDrive\Project\fullStacked\Backend\src\main\java\com\caden\fitn
 C:\Users\cva70\OneDrive\Project\fullStacked\Backend\src\main\java\com\caden\fitnessapp\fullStacked\Repository\ExerciseRepository.java
 C:\Users\cva70\OneDrive\Project\fullStacked\Backend\src\main\java\com\caden\fitnessapp\fullStacked\Repository\UserRepository.java
 C:\Users\cva70\OneDrive\Project\fullStacked\Backend\src\main\java\com\caden\fitnessapp\fullStacked\Repository\WorkoutRepository.java
-C:\Users\cva70\OneDrive\Project\fullStacked\Backend\src\main\java\com\caden\fitnessapp\fullStacked\controller\AuthController.java
+C:\Users\cva70\OneDrive\Project\fullStacked\Backend\src\main\java\com\caden\fitnessapp\fullStacked\controller\authController.java
 C:\Users\cva70\OneDrive\Project\fullStacked\Backend\src\main\java\com\caden\fitnessapp\fullStacked\service\JWTService.java
 C:\Users\cva70\OneDrive\Project\fullStacked\Backend\src\main\java\com\caden\fitnessapp\fullStacked\dto\WorkoutRequest.java
 C:\Users\cva70\OneDrive\Project\fullStacked\Backend\src\main\java\com\caden\fitnessapp\fullStacked\service\CustomUserDetailsService.java
