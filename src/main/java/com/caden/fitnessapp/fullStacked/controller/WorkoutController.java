@@ -25,6 +25,7 @@ import com.caden.fitnessapp.fullStacked.dto.WorkoutResponse;
 import com.caden.fitnessapp.fullStacked.model.Exercise;
 import com.caden.fitnessapp.fullStacked.model.User;
 import com.caden.fitnessapp.fullStacked.model.Workout;
+import com.caden.fitnessapp.fullStacked.Service.ExercsieInfoService;
 
 @RestController
 
@@ -39,6 +40,9 @@ public class WorkoutController{
 
     @Autowired
     private ExerciseRepository exerciseRepository;
+
+    @Autowired
+    private ExerciseInfoService exerciseInfoService;
 
     @PostMapping
     public ResponseEntity<String> createWorkout(@RequestBody WorkoutRequest workoutRequest){
@@ -80,6 +84,7 @@ public class WorkoutController{
         exercise.setSets(exerciseRequest.getSets());
         exercise.setWorkout(workout);
 
+        exercise = ExercsieInfoService.getExerciseInfo(exercise);
         exerciseRepository.save(exercise);
 
         return ResponseEntity.ok("Exercise created succesfully");

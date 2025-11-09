@@ -1,0 +1,14 @@
+# Ignore IDE and build files
+/.idea
+/target
+
+# Ignore database files
+/data/*.mv.db
+/data/*.trace.db
+
+# Ignore OS files
+*.log
+.DS_Store
+
+# Optional: ignore env files
+.env
