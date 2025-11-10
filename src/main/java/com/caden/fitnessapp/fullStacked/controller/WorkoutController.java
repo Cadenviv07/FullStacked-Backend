@@ -15,9 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.caden.fitnessapp.fullStacked.Repository.ExerciseRepository;
 import com.caden.fitnessapp.fullStacked.Repository.UserRepository;
-import com.caden.fitnessapp.fullStacked.Repository.WorkoutRepository;
 import com.caden.fitnessapp.fullStacked.dto.ExerciseRequest;
 import com.caden.fitnessapp.fullStacked.dto.ExerciseResponse;
 import com.caden.fitnessapp.fullStacked.dto.WorkoutRequest;
@@ -35,11 +33,6 @@ public class WorkoutController{
     @Autowired
     private UserRepository userRepository;
 
-    @Autowired
-    private WorkoutRepository workoutRepository;
-
-    @Autowired
-    private ExerciseRepository exerciseRepository;
 
     @Autowired
     private ExerciseInfoService exerciseInfoService;
@@ -55,10 +48,9 @@ public class WorkoutController{
         Workout workout = new Workout();
         workout.setDate(workoutRequest.getDate());
         workout.setWorkout(workoutRequest.getWorkout());
-        workout.setUser(user);
-
-        workoutRepository.save(workout);
-
+        user.getWorkouts().add(workout);
+        UserRepository.save(User);
+        
         return ResponseEntity.ok("Workout created succsesfully");
     }
 
@@ -69,13 +61,11 @@ public class WorkoutController{
         User user = userRepository.findByUsername(username)
             .orElseThrow(() -> new RuntimeException("User not found"));
     
-        Workout workout = workoutRepository.findById(workoutId)
-        .orElseThrow(() -> new RuntimeException("Workout not found"));
+        Workout workout = user.getWorkouts().stream()
+            .filter(w -> w.getId().equals(workoutId))
+            .findFirst()
+            .orElseThrow(() -> new RuntimeException("Workout not found"));
 
-
-        if (!workout.getUser().getId().equals(user.getId())) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("You are not allowed to modify this workout");
-        }
 
         Exercise exercise = new Exercise();
         exercise.setReps(exerciseRequest.getReps());
@@ -85,7 +75,9 @@ public class WorkoutController{
         exercise.setWorkout(workout);
 
         exercise = ExercsieInfoService.getExerciseInfo(exercise);
-        exerciseRepository.save(exercise);
+
+        workout.getExercises().add(exercise);
+        userRepository.save(user);
 
         return ResponseEntity.ok("Exercise created succesfully");
     }
@@ -96,8 +88,7 @@ public class WorkoutController{
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
-        List<Workout> workouts = workoutRepository.findByUserId(user.getId());
-        return ResponseEntity.ok(workouts);
+        return ResponseEntity.ok(user.getWorkouts());
     }
 
     @GetMapping("/{id}")
@@ -105,22 +96,13 @@ public class WorkoutController{
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         User user = userRepository.findByUsername(username)
             .orElseThrow(() -> new RuntimeException("User not found"));
-
-        Workout workout = workoutRepository.findById(id)
+        
+        Workout workout = user.getWorkouts().stream()
+            .filter(w -> w.getId().equals(workoutId))
+            .findFirst()
             .orElseThrow(() -> new RuntimeException("Workout not found"));
 
-        if (!workout.getUser().getId().equals(user.getId())) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
-        }
-
-        List<ExerciseResponse> exerciseResponses = workout.getExercises().stream()
-            .map(e -> new ExerciseResponse(e.getExercise(), e.getSets(), e.getReps(), e.getWeight()))
-            .toList();
-        
-        WorkoutResponse response = new WorkoutResponse(workout.getWorkout(), workout.getDate(), exerciseResponses);
-
-        return ResponseEntity.ok(response);
-
+        return ResponseEntity.ok(workout);
     }
 
     @DeleteMapping("/{id}")
