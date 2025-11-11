@@ -1,6 +1,6 @@
 package com.caden.fitnessapp.fullStacked.service;
 
-import com.caden.fitnessapp.fullStacked.Repository.UserRepository;
+import com.caden.fitnessapp.fullStacked.repository.UserRepository;
 import com.caden.fitnessapp.fullStacked.model.User;
 
 import java.util.Optional;

@@ -1,7 +1,7 @@
 package com.caden.fitnessapp.fullStacked.service;
 
 import com.caden.fitnessapp.fullStacked.model.User;
-import com.caden.fitnessapp.fullStacked.Repository.UserRepository;
+import com.caden.fitnessapp.fullStacked.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.*;
 import org.springframework.stereotype.Service;

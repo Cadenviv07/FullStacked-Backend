@@ -7,7 +7,7 @@ import com.caden.fitnessapp.fullStacked.service.VerificationService;
 
 import jakarta.validation.Valid;
 
-import com.caden.fitnessapp.fullStacked.Repository.UserRepository;
+import com.caden.fitnessapp.fullStacked.repository.UserRepository;
 import com.caden.fitnessapp.fullStacked.dto.SignupRequest;
 import com.caden.fitnessapp.fullStacked.dto.VerifyRequest;
 
@@ -32,7 +32,7 @@ public class authController {
     @Autowired 
     private UserService service;
 
-     private final VerificationService verificationService;
+    private final VerificationService verificationService;
 
     public authController(VerificationService verificationService) {
         this.verificationService = verificationService;

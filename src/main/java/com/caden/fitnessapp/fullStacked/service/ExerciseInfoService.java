@@ -25,7 +25,7 @@ public class ExerciseInfoService {
     private ExerciseInfoRepository exerciseInfoRepository;
 
     public Exercise getExerciseInfo(Exercise exercise) {
-        Optional<Exercise> existing = exerciseInfoRepository.findByNameIgnoreCase(exercise.getName());
+        Optional<Exercise> existing = exerciseInfoRepository.findByNameIgnoreCase(exercise.getExercise());
 
         if (existing.isPresent()) {
             Exercise dbExercise = existing.get();
@@ -36,7 +36,7 @@ public class ExerciseInfoService {
         } else {
             try {
                 HttpRequest request = HttpRequest.newBuilder()
-                        .uri(URI.create("https://exercisedb.p.rapidapi.com/exercises/name/" + exercise.getName()))
+                        .uri(URI.create("https://exercisedb.p.rapidapi.com/exercises/name/" + exercise.getExercise()))
                         .header("x-rapidapi-key", apiKey)
                         .header("x-rapidapi-host", apiHost)
                         .GET()

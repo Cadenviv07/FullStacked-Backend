@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.caden.fitnessapp.fullStacked.Repository.UserRepository;
+import com.caden.fitnessapp.fullStacked.repository.UserRepository;
 import com.caden.fitnessapp.fullStacked.dto.ExerciseRequest;
 import com.caden.fitnessapp.fullStacked.dto.ExerciseResponse;
 import com.caden.fitnessapp.fullStacked.dto.WorkoutRequest;

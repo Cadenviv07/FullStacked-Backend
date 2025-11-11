@@ -3,30 +3,17 @@ package com.caden.fitnessapp.fullStacked.model;
 import java.util.ArrayList;
 import java.util.List;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
-//Maps user class to database table named user
-@Entity
-@Table(name = "app_user")
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
+@Document(collection = "users")
 public class User {
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Workout> workouts = new ArrayList<>();
     
-    //Primary key of table
     @Id
-    //Randomly generates id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    //Ensures all usernames are unique
-    @Column(unique = true)
+    private String id;
+
     private String username;
 
 
@@ -36,7 +23,7 @@ public class User {
     private boolean isEnabled;
 
     //get id 
-    public Long getId(){return id;}
+    public String getId(){return id;}
 
     //get username 
     public String getUsername(){return username;}
@@ -66,5 +53,7 @@ public class User {
 
     public String getRole() { return role; }
     public void setRole(String role) { this.role = role;}
+    
+    public List<workouts> getWorkouts() { return workouts; }
     
 }

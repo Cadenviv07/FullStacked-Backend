@@ -1,28 +1,24 @@
 package com.caden.fitnessapp.fullStacked.model;
 
-import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 
-@Entity
 public class Exercise {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long Id;
+
+    private String Id;
 
     private int reps; 
     private int sets;
     private String exercise;
     private double weight;
 
+    //Filled in from api 
+    private String muscleGroup;
+    private String equipment;
     
-    @ManyToOne
-    @JoinColumn(name = "workout_id", nullable = false)
-    private Workout workout;
-
     public int getReps() {
         return reps;
     }
@@ -55,12 +51,19 @@ public class Exercise {
         this.weight = weight;
     }
 
-    public void setWorkout(Workout workout){
-        this.workout = workout;
+    public Workout getMuscleGroup(){
+        return muscleGroup;
     }
 
-    public Workout getWorkout(){
-        return workout;
+    public void setMuscleGroup(String muscleGroup){
+        this.muscleGroup = muscleGroup;
     }
 
+    public Workout getEquipment(String equipment){
+        return equipment;
+    }
+
+       public void setEquipment(String equipment){
+        this.equipment = equipment;
+    }
 }   
