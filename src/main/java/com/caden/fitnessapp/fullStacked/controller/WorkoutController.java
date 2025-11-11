@@ -23,7 +23,7 @@ import com.caden.fitnessapp.fullStacked.dto.WorkoutResponse;
 import com.caden.fitnessapp.fullStacked.model.Exercise;
 import com.caden.fitnessapp.fullStacked.model.User;
 import com.caden.fitnessapp.fullStacked.model.Workout;
-import com.caden.fitnessapp.fullStacked.Service.ExercsieInfoService;
+import com.caden.fitnessapp.fullStacked.service.ExerciseInfoService;
 
 @RestController
 
@@ -55,7 +55,7 @@ public class WorkoutController{
     }
 
     @PostMapping("/{workoutId}/exercises")
-    public ResponseEntity<String> addExercise(@PathVariable Long workoutId , @RequestBody ExerciseRequest exerciseRequest){
+    public ResponseEntity<String> addExercise(@PathVariable String workoutId , @RequestBody ExerciseRequest exerciseRequest){
 
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         User user = userRepository.findByUsername(username)
@@ -74,7 +74,7 @@ public class WorkoutController{
         exercise.setSets(exerciseRequest.getSets());
         exercise.setWorkout(workout);
 
-        exercise = ExercsieInfoService.getExerciseInfo(exercise);
+        exercise = exercsieInfoService.getExerciseInfo(exercise);
 
         workout.getExercises().add(exercise);
         userRepository.save(user);
@@ -92,7 +92,7 @@ public class WorkoutController{
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<WorkoutResponse> getWorkoutById(@PathVariable Long id){
+    public ResponseEntity<WorkoutResponse> getWorkoutById(@PathVariable String id){
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         User user = userRepository.findByUsername(username)
             .orElseThrow(() -> new RuntimeException("User not found"));
@@ -106,46 +106,34 @@ public class WorkoutController{
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteWorkout(@PathVariable Long id){
+    public ResponseEntity<String> deleteWorkout(@PathVariable String id){
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         User user = userRepository.findByUsername(username)
             .orElseThrow(() -> new RuntimeException("User not found"));
 
-        Workout workout = workoutRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("Workout not found"));
+        boolean removed = user.getWorkouts().removeIf(w -> w.getId().equals(id));
+        if (!removed) return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Workout not found");
         
-        if (!workout.getUser().getId().equals(user.getId())) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("You cannot delete this workout");
-        }
-        
-        workoutRepository.delete(workout);
-
+        userRepository.save(user);
         return ResponseEntity.ok("Workout deleted succesfully");
     }
 
 
     @DeleteMapping("/{workoutId}/exercises/{exerciseId}")
-    public ResponseEntity<String> deleteExercise(@PathVariable Long id, @PathVariable Long exerciseId){
+    public ResponseEntity<String> deleteExercise(@PathVariable String workoutId , @PathVariable String exerciseId){
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         User user = userRepository.findByUsername(username)
             .orElseThrow(() -> new RuntimeException("User not found"));
 
-        Workout workout = workoutRepository.findById(id)
+        Workout workout = user.getWorkouts().stream()
+            .filter(w -> w.getId().equals(workoutId))
+            .findFirst()
             .orElseThrow(() -> new RuntimeException("Workout not found"));
-        
-        if (!workout.getUser().getId().equals(user.getId())) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("You cannot delete this workout");
-        }
-        
-        Exercise exercise = exerciseRepository.findById(exerciseId)
-        .orElseThrow(() -> new RuntimeException("Exercise not found"));
 
-        
-        if (!exercise.getWorkout().getId().equals(id)) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Exercise does not belong to this workout");
-        }
-        
+        boolean removed = workout.getExercises().removeIf(e -> e.getId().equals(exerciseId));
+        if(!removed) return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Exercise not found");
 
+        userRepository.save(user);
         return ResponseEntity.ok("Exercise deleted succesfully");
     }
 
@@ -156,12 +144,11 @@ public class WorkoutController{
         User user = userRepository.findByUsername(username)
             .orElseThrow(() -> new RuntimeException("User not found"));
 
-        List<Exercise> exercises = exerciseRepository.findByWorkoutUserAndExercise(user, name);
-        
-        List<ExerciseResponse> response = exercises.stream()
-        .map(e -> new ExerciseResponse(e.getExercise(), e.getSets(), e.getReps(), e.getWeight()))
-        .toList();
+        List<Exercise> matching = user.getWorkouts().stream()
+            .flatMap(w -> w.getExercises().stream())
+            .filter(e -> e.getName().equalsIgnoreCase(exerciseName))
+            .toList();
 
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok(matching);
     }
 }

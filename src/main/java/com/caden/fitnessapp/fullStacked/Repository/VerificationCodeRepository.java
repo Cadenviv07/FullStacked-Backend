@@ -1,4 +1,4 @@
-package com.caden.fitnessapp.fullStacked.Repository;
+package com.caden.fitnessapp.fullStacked.repository;
 
 import java.util.Optional;
 

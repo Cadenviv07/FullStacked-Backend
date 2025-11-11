@@ -1,4 +1,4 @@
-package com.caden.fitnessapp.fullStacked.repository;
+package com.caden.fitnessapp.fullStacked.Repository;
 
 import com.caden.fitnessapp.fullStacked.model.Exercise;
 import org.springframework.data.jpa.repository.JpaRepository;

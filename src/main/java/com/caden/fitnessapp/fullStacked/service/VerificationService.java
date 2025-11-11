@@ -9,8 +9,8 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
-import com.caden.fitnessapp.fullStacked.Repository.UserRepository;
-import com.caden.fitnessapp.fullStacked.Repository.VerificationCodeRepository;
+import com.caden.fitnessapp.fullStacked.repository.UserRepository;
+import com.caden.fitnessapp.fullStacked.repository.VerificationCodeRepository;
 import com.caden.fitnessapp.fullStacked.model.User;
 import com.caden.fitnessapp.fullStacked.model.VerificationCode;
 

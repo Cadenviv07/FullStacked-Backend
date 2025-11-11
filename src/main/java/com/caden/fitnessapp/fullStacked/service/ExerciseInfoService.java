@@ -1,8 +1,11 @@
+package com.caden.fitnessapp.fullStacked.service;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import com.google.gson.Gson;
-import com.caden.fitnessapp.fullStacked.Repository.ExerciseInfoRepository;
+import com.caden.fitnessapp.fullStacked.repository.ExerciseInfoRepository;
+import com.caden.fitnessapp.fullStacked.model.Exercise;
 import java.net.http.*;
 import java.net.URI;
 import java.util.Optional;
