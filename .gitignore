@@ -10,5 +10,3 @@
 *.log
 .DS_Store
 
-# Optional: ignore env files
-.env
