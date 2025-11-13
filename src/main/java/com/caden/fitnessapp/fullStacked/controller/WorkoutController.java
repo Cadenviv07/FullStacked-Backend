@@ -2,6 +2,7 @@ package com.caden.fitnessapp.fullStacked.controller;
 
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -49,7 +50,7 @@ public class WorkoutController{
         workout.setDate(workoutRequest.getDate());
         workout.setWorkout(workoutRequest.getWorkout());
         user.getWorkouts().add(workout);
-        UserRepository.save(User);
+        userRepository.save(user);
         
         return ResponseEntity.ok("Workout created succsesfully");
     }
@@ -72,9 +73,8 @@ public class WorkoutController{
         exercise.setWeight(exerciseRequest.getWeight());
         exercise.setExercise(exerciseRequest.getExercise());
         exercise.setSets(exerciseRequest.getSets());
-        exercise.setWorkout(workout);
 
-        exercise = exercsieInfoService.getExerciseInfo(exercise);
+        exercise = exerciseInfoService.getExerciseInfo(exercise);
 
         workout.getExercises().add(exercise);
         userRepository.save(user);
@@ -98,11 +98,12 @@ public class WorkoutController{
             .orElseThrow(() -> new RuntimeException("User not found"));
         
         Workout workout = user.getWorkouts().stream()
-            .filter(w -> w.getId().equals(workoutId))
+            .filter(w -> w.getId().equals(id))
             .findFirst()
             .orElseThrow(() -> new RuntimeException("Workout not found"));
 
-        return ResponseEntity.ok(workout);
+        WorkoutResponse response = new WorkoutResponse(workout);
+        return ResponseEntity.ok(response);
     }
 
     @DeleteMapping("/{id}")
@@ -144,11 +145,19 @@ public class WorkoutController{
         User user = userRepository.findByUsername(username)
             .orElseThrow(() -> new RuntimeException("User not found"));
 
+        //In case another error occurs this is whats happening in case forgotten
+        //Flatten all workouts exercises into one big stream and then match any exercises that match the name
         List<Exercise> matching = user.getWorkouts().stream()
             .flatMap(w -> w.getExercises().stream())
-            .filter(e -> e.getExercise().equalsIgnoreCase(exerciseName))
+            .filter(e -> e.getExercise().equalsIgnoreCase(name))
             .toList();
 
-        return ResponseEntity.ok(matching);
+        //Sreams all exercises then maps them to an exerciseResponse constructor then collects all of the dtos into a list
+        List<ExerciseResponse> response = matching
+            .stream()
+            .map(ExerciseResponse::new)
+            .collect(Collectors.toList());
+
+        return ResponseEntity.ok(response);
     }
 }
