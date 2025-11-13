@@ -146,7 +146,7 @@ public class WorkoutController{
 
         List<Exercise> matching = user.getWorkouts().stream()
             .flatMap(w -> w.getExercises().stream())
-            .filter(e -> e.getName().equalsIgnoreCase(exerciseName))
+            .filter(e -> e.getExercise().equalsIgnoreCase(exerciseName))
             .toList();
 
         return ResponseEntity.ok(matching);
