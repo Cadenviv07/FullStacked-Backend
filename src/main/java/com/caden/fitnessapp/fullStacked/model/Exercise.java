@@ -1,14 +1,8 @@
 package com.caden.fitnessapp.fullStacked.model;
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-
 public class Exercise {
 
-    private String Id;
+    private String id;
 
     private int reps; 
     private int sets;
@@ -19,6 +13,10 @@ public class Exercise {
     private String muscleGroup;
     private String equipment;
     
+    public String getId() {
+        return id;
+    }
+
     public int getReps() {
         return reps;
     }
@@ -51,7 +49,7 @@ public class Exercise {
         this.weight = weight;
     }
 
-    public Workout getMuscleGroup(){
+    public String getMuscleGroup(){
         return muscleGroup;
     }
 
@@ -59,7 +57,7 @@ public class Exercise {
         this.muscleGroup = muscleGroup;
     }
 
-    public Workout getEquipment(String equipment){
+    public String getEquipment(){
         return equipment;
     }
 

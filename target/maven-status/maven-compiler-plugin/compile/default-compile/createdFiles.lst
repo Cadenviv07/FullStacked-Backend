@@ -1,4 +1,5 @@
-com\caden\fitnessapp\fullStacked\service\JWTService.class
-com\caden\fitnessapp\fullStacked\dto\SignupRequest.class
-com\caden\fitnessapp\fullStacked\dto\ExerciseResponse.class
-com\caden\fitnessapp\fullStacked\dto\WorkoutResponse.class
+com\caden\fitnessapp\fullStacked\model\Exercise.class
+com\caden\fitnessapp\fullStacked\model\VerificationCode.class
+com\caden\fitnessapp\fullStacked\repository\VerificationCodeRepository.class
+com\caden\fitnessapp\fullStacked\model\User.class
+com\caden\fitnessapp\fullStacked\model\Workout.class
