@@ -1,6 +1,6 @@
 package com.caden.fitnessapp.fullStacked.repository;
 
-import java.lang.StackWalker.Option;
+
 import java.util.Optional;
 import com.caden.fitnessapp.fullStacked.model.User;
 

@@ -7,6 +7,6 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 
 
 public interface ExerciseInfoRepository extends MongoRepository<Exercise, String> {
-    Optional<Exercise> findByNameIgnoreCase(String name);
+    Optional<Exercise> findByExerciseIgnoreCase(String name);
 }
 

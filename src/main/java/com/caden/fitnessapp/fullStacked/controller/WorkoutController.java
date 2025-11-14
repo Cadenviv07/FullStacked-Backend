@@ -75,6 +75,10 @@ public class WorkoutController{
         exercise.setSets(exerciseRequest.getSets());
 
         exercise = exerciseInfoService.getExerciseInfo(exercise);
+        
+        if(!workout.getMuscleTargets().contains(exercise.getMuscleGroup())){
+            workout.getMuscleTargets().add(exercise.getMuscleGroup());
+        }
 
         workout.getExercises().add(exercise);
         userRepository.save(user);

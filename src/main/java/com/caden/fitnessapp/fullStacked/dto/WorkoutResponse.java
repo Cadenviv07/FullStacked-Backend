@@ -11,7 +11,7 @@ public class WorkoutResponse {
     private LocalDate date;
     private List<ExerciseResponse> exercises;
 
-      public WorkoutResponse(Workout workout) {
+    public WorkoutResponse(Workout workout) {
         this.name = workout.getWorkout();
         this.date = workout.getDate();
         this.exercises = workout.getExercises()
