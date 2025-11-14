@@ -30,7 +30,7 @@ public class VerificationService {
         String code = String.format("%06d", new Random().nextInt(999999));
         
         VerificationCode verificationCode = new VerificationCode();
-        verificationCode.setUser(user);
+        verificationCode.setUserId(user.getId());
         verificationCode.setCode(code);
         verificationCode.setExpiryDate(LocalDateTime.now().plusMinutes(15));
 
@@ -73,5 +73,4 @@ public class VerificationService {
         return true;
 
     }
-
 }
