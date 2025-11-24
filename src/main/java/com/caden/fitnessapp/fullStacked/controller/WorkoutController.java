@@ -110,6 +110,26 @@ public class WorkoutController{
         return ResponseEntity.ok(response);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<ExerciseResponse> getExerciseById(@PathVariable String id){
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        User user = userRepository.findByUsername(username)
+            .orElseThrow(() -> new RuntimeException("User not found"));
+        
+        Workout workout = user.getWorkouts().stream()
+            .filter(w -> w.getId().equals(id))
+            .findFirst()
+            .orElseThrow(() -> new RuntimeException("Workout not found"));
+
+        Exercise exercise = workout.getExercises().stream()
+            .filter(e -> e.getId().equals(id))
+            .findFirst()
+            .orElseThrow(() -> new RuntimeException("Exercise not found"))
+        
+        ExerciseResponse response = new ExerciseResponse(exercise);
+        return ResponseEntity.ok(response);
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteWorkout(@PathVariable String id){
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
