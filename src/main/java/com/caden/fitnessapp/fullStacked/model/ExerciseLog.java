@@ -6,37 +6,27 @@ import org.springframework.data.annotation.Id;
 @Document(collection = "Exercise log")
 public class ExerciseLog {
     @Id
-    private String ExerciseId;
+    private String exerciseId;
     private String userId;
 
-    private int sets;
-    private int reps;
+    private List<SetLog> sets;
     private String name;
     private String date; 
-    private double weight;
 
-    public String setExerciseId(){
+
+    public void setExerciseId(){
         this.ExerciseId = id;
     }
-    public String setUserId(){
+    public void setUserId(){
         this.UserId = id;
     }
 
-
-    public int getReps() {
-        return reps;
+    public String getUserId(){
+        return userId;
     }
 
-    public void setReps(int reps) {
-        this.reps = reps;
-    }
-
-    public int getSets() {
-        return sets;
-    }
-
-    public void setSets(int sets) {
-        this.sets = sets;
+    public String getExerciseId(){
+        return 
     }
 
     public String getName() {
@@ -47,19 +37,26 @@ public class ExerciseLog {
         this.name = name;
     }
 
-    public double getWeight() {
-        return weight;
-    }
-
-    public void setWeight(double weight) {
-        this.weight = weight;
-    }
-
     public LocalDate getDate() {
         return date;
     }
 
-    public void setDate(LocalDate date) {
+    public void setDate(String date) {
         this.date = date;
+    }
+
+    class SetLog {
+        private int setNumber;
+        private double weight;
+        private int reps;
+
+        public double getWeight() { return weight; }
+        public void setWeight(double weight) { this.weight = weight; }
+
+        public double getReps() { return reps; }
+        public void setReps(int reps) { this.weight = reps; }
+
+        public double getNumber() { return setNumber; }
+        public void setNumber(int setNumber) { this.setNumber = setNumber; }
     }
 }
