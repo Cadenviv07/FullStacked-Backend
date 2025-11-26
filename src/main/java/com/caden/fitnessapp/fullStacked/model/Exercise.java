@@ -4,7 +4,7 @@ public class Exercise {
 
     private String id;
 
-    private int reps; 
+    private List<SetLog> sets; 
     private int sets;
     private String exercise;
     private double weight;
@@ -17,20 +17,16 @@ public class Exercise {
         return id;
     }
 
+    public String setId(){
+        this.id = id;
+    }
+
     public int getReps() {
         return reps;
     }
 
     public void setReps(int reps) {
         this.reps = reps;
-    }
-
-    public int getSets() {
-        return sets;
-    }
-
-    public void setSets(int sets) {
-        this.sets = sets;
     }
 
     public String getExercise() {
@@ -63,5 +59,28 @@ public class Exercise {
 
        public void setEquipment(String equipment){
         this.equipment = equipment;
+    }
+
+    class SetLog {
+        private int setNumber;
+        private double weight;
+        private int reps;
+
+        public double getWeight() { return weight; }
+        public void setWeight(double weight) { this.weight = weight; }
+
+        public double getReps() { return reps; }
+        public void setReps(int reps) { this.weight = reps; }
+
+        public double getNumber() { return setNumber; }
+        public void setNumber(int setNumber) { this.setNumber = setNumber; }
+    }
+
+    public void setLog(List<SetLog> setLog){
+        this.sets = setLog;
+    }
+
+    public List<SetLog> getSets(){
+        return sets;
     }
 }   
