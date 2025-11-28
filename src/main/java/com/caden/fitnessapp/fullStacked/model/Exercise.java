@@ -1,5 +1,7 @@
 package com.caden.fitnessapp.fullStacked.model;
 
+
+
 public class Exercise {
 
     private String id;

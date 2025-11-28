@@ -3,7 +3,7 @@ package com.caden.fitnessapp.fullStacked.model;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.annotation.Id;
 
-@Document(collection = "Exercise log")
+@Document(collection = "ExerciseLog")
 public class ExerciseLog {
     @Id
     private String exerciseId;
@@ -26,7 +26,7 @@ public class ExerciseLog {
     }
 
     public String getExerciseId(){
-        return 
+        return exerciseId;
     }
 
     public String getName() {
@@ -58,5 +58,13 @@ public class ExerciseLog {
 
         public double getNumber() { return setNumber; }
         public void setNumber(int setNumber) { this.setNumber = setNumber; }
+    }
+
+    public void setLog(List<SetLog> setLog){
+        this.sets = setLog;
+    }
+
+    public List<SetLog> getSets(){
+        return sets;
     }
 }

@@ -13,6 +13,8 @@ public class Workout {
     private String name;
 
     private List<Exercise> exercises = new ArrayList<>();
+
+    private List<String> muscleTargets = new ArrayList<>();
     
     public LocalDate getDate() {
         return date;
@@ -35,4 +37,5 @@ public class Workout {
     }
     
     public List<Exercise> getExercises() { return exercises;}
+    public List<String> getMuscleTargets() { return muscleTargets;}
 }

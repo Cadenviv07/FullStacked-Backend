@@ -25,7 +25,7 @@ public class ExerciseInfoService {
     private ExerciseInfoRepository exerciseInfoRepository;
 
     public Exercise getExerciseInfo(Exercise exercise) {
-        Optional<Exercise> existing = exerciseInfoRepository.findByNameIgnoreCase(exercise.getExercise());
+        Optional<Exercise> existing = exerciseInfoRepository.findByExerciseIgnoreCase(exercise.getExercise());
 
         if (existing.isPresent()) {
             Exercise dbExercise = existing.get();

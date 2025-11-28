@@ -1,6 +1,10 @@
 package com.caden.fitnessapp.fullStacked.dto;
 
+import java.util.List;
+
+import com.caden.fitnessapp.fullStacked.model.Exercise.SetLog;
 import com.caden.fitnessapp.fullStacked.model.Exercise;
+
 
 public class ExerciseResponse {
     private String exercise;
@@ -14,8 +18,6 @@ public class ExerciseResponse {
     public ExerciseResponse(Exercise exercise) {
         this.exercise = exercise.getExercise();
         this.sets = exercise.getSets();
-        this.reps = exercise.getReps();
-        this.weight = exercise.getWeight();
         this.muscleGroup = exercise.getMuscleGroup();
         this.equipment = exercise.getEquipment();
     }

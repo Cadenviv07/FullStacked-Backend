@@ -6,6 +6,22 @@ public class ExerciseRequest {
     private String exercise;
     private double weight;
 
+
+    class SetLog {
+        private int setNumber;
+        private double weight;
+        private int reps;
+
+        public double getWeight() { return weight; }
+        public void setWeight(double weight) { this.weight = weight; }
+
+        public double getReps() { return reps; }
+        public void setReps(int reps) { this.weight = reps; }
+
+        public double getNumber() { return setNumber; }
+        public void setNumber(int setNumber) { this.setNumber = setNumber; }
+    }
+
     public int getReps() {
         return reps;
     }
@@ -38,6 +54,11 @@ public class ExerciseRequest {
         this.weight = weight;
     }
 
+    public void setLog(List<SetLog> setLog){
+        this.sets = setLog;
+    }
 
-
+    public List<SetLog> getSets(){
+        return sets;
+    }
 }

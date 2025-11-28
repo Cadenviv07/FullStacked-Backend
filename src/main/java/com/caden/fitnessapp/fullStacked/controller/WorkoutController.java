@@ -150,7 +150,7 @@ public class WorkoutController{
         Exercise exercise = workout.getExercises().stream()
             .filter(e -> e.getId().equals(id))
             .findFirst()
-            .orElseThrow(() -> new RuntimeException("Exercise not found"))
+            .orElseThrow(() -> new RuntimeException("Exercise not found"));
         
         ExerciseResponse response = new ExerciseResponse(exercise);
         return ResponseEntity.ok(response);
