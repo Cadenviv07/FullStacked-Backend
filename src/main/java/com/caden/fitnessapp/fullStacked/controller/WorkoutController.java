@@ -24,7 +24,6 @@ import com.caden.fitnessapp.fullStacked.dto.ExerciseResponse;
 import com.caden.fitnessapp.fullStacked.dto.WorkoutRequest;
 import com.caden.fitnessapp.fullStacked.dto.WorkoutResponse;
 import com.caden.fitnessapp.fullStacked.model.Exercise;
-import com.caden.fitnessapp.fullStacked.model.ExerciseInfo;
 import com.caden.fitnessapp.fullStacked.model.User;
 import com.caden.fitnessapp.fullStacked.model.Workout;
 import com.caden.fitnessapp.fullStacked.service.ExerciseInfoService;
@@ -63,6 +62,7 @@ public class WorkoutController{
             @PathVariable String workoutId, 
             @RequestBody ExerciseRequest request) {
 
+    
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new RuntimeException("User not found"));
@@ -72,12 +72,9 @@ public class WorkoutController{
                 .findFirst()
                 .orElseThrow(() -> new RuntimeException("Workout not found"));
 
-      
-        ExerciseInfo metadata = exerciseInfoService.getExerciseInfo(request.getName()); 
-
-
         Optional<Exercise> existingExercise = workout.getExercises().stream()
-                .filter(e -> e.getExercise().equalsIgnoreCase(request.getExercise()))
+        
+                .filter(e -> e.getExercise().equalsIgnoreCase(request.getExercise())) 
                 .findFirst();
 
         Exercise exercise;
@@ -85,42 +82,48 @@ public class WorkoutController{
 
         if (isNew) {
             exercise = new Exercise();
-            exercise.setExercise(username);(request.getExercise());
-            exercise.setLog(new ArrayList<>());
+            exercise.setExercise(request.getExercise());
+    
+            exercise.setLog(new ArrayList<>()); 
             workout.getExercises().add(exercise); 
         } else {
             exercise = existingExercise.get();
-        
+      
             exercise.setLog(new ArrayList<>()); 
         }
 
-        exercise.setMuscleGroup(metadata.getMuscleGroup());
-        exercise.setType(metadata.getType()); 
-  
+        exercise = exerciseInfoService.getExerciseInfo(exercise); 
+        
 
-   
-        if (!workout.getMuscleTargets().contains(metadata.getMuscleGroup())) {
-            workout.getMuscleTargets().add(metadata.getMuscleGroup());
+        
+
+        if (!workout.getMuscleTargets().contains(exercise.getMuscleGroup())) {
+            workout.getMuscleTargets().add(exercise.getMuscleGroup());
         }
 
-      
+
         if (request.getSets() != null) {
             for (int i = 0; i < request.getSets().size(); i++) {
+               
                 ExerciseRequest.SetLog setDto = request.getSets().get(i);
                 
-                Exercise.SetLog setEntity = new Exercise.SetInfo();
-                setEntity.setSetNumber(i + 1); 
+                Exercise.SetLog setEntity = new Exercise.SetLog(); 
+                
+                setEntity.setNumber(i + 1); 
                 setEntity.setWeight(setDto.getWeight());
                 setEntity.setReps(setDto.getReps());
                 
+             
                 exercise.getSets().add(setEntity);
             }
         }
 
+  
         userRepository.save(user);
 
         return ResponseEntity.ok(isNew ? "Exercise created" : "Exercise updated");
     }
+
 
     @GetMapping
     public ResponseEntity<List<Workout>> getAllWorkouts() {
