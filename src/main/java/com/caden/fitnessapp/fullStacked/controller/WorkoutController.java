@@ -1,7 +1,9 @@
 package com.caden.fitnessapp.fullStacked.controller;
 
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +24,7 @@ import com.caden.fitnessapp.fullStacked.dto.ExerciseResponse;
 import com.caden.fitnessapp.fullStacked.dto.WorkoutRequest;
 import com.caden.fitnessapp.fullStacked.dto.WorkoutResponse;
 import com.caden.fitnessapp.fullStacked.model.Exercise;
+import com.caden.fitnessapp.fullStacked.model.ExerciseInfo;
 import com.caden.fitnessapp.fullStacked.model.User;
 import com.caden.fitnessapp.fullStacked.model.Workout;
 import com.caden.fitnessapp.fullStacked.service.ExerciseInfoService;
@@ -56,7 +59,9 @@ public class WorkoutController{
     }
 
     @PostMapping("/{workoutId}/exercises")
-    public ResponseEntity<String> addOrUpdateExercise( @PathVariable String workoutId, @RequestBody ExerciseRequest request) {
+    public ResponseEntity<String> addOrUpdateExercise(
+            @PathVariable String workoutId, 
+            @RequestBody ExerciseRequest request) {
 
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         User user = userRepository.findByUsername(username)
@@ -67,39 +72,44 @@ public class WorkoutController{
                 .findFirst()
                 .orElseThrow(() -> new RuntimeException("Workout not found"));
 
+      
+        ExerciseInfo metadata = exerciseInfoService.getExerciseInfo(request.getName()); 
+
+
         Optional<Exercise> existingExercise = workout.getExercises().stream()
-                .filter(e -> e.getName().equalsIgnoreCase(request.getName()))
+                .filter(e -> e.getExercise().equalsIgnoreCase(request.getExercise()))
                 .findFirst();
 
         Exercise exercise;
+        boolean isNew = !existingExercise.isPresent();
 
-        if (existingExercise.isPresent()) {
-       
-            exercise = existingExercise.get();
-         
-            exercise.setSets(new ArrayList<>()); 
-        } else {
-           
+        if (isNew) {
             exercise = new Exercise();
-            exercise.setName(request.getName());
-            exercise.setSets(new ArrayList<>());
-            
-        
+            exercise.setExercise(username);(request.getExercise());
+            exercise.setLog(new ArrayList<>());
             workout.getExercises().add(exercise); 
-            
-            ExerciseInfo info = exerciseInfoService.getExerciseInfo(request.getName());
-            if (!workout.getMuscleTargets().contains(info.getMuscleGroup())) {
-                workout.getMuscleTargets().add(info.getMuscleGroup());
-            }
+        } else {
+            exercise = existingExercise.get();
+        
+            exercise.setLog(new ArrayList<>()); 
         }
 
-    
+        exercise.setMuscleGroup(metadata.getMuscleGroup());
+        exercise.setType(metadata.getType()); 
+  
+
+   
+        if (!workout.getMuscleTargets().contains(metadata.getMuscleGroup())) {
+            workout.getMuscleTargets().add(metadata.getMuscleGroup());
+        }
+
+      
         if (request.getSets() != null) {
             for (int i = 0; i < request.getSets().size(); i++) {
-                ExerciseRequest.SetDto setDto = request.getSets().get(i);
+                ExerciseRequest.SetLog setDto = request.getSets().get(i);
                 
-                Exercise.SetInfo setEntity = new Exercise.SetInfo();
-                setEntity.setNumber(i + 1); 
+                Exercise.SetLog setEntity = new Exercise.SetInfo();
+                setEntity.setSetNumber(i + 1); 
                 setEntity.setWeight(setDto.getWeight());
                 setEntity.setReps(setDto.getReps());
                 
@@ -109,7 +119,7 @@ public class WorkoutController{
 
         userRepository.save(user);
 
-        return ResponseEntity.ok(existingExercise.isPresent() ? "Exercise updated" : "Exercise created");
+        return ResponseEntity.ok(isNew ? "Exercise created" : "Exercise updated");
     }
 
     @GetMapping
