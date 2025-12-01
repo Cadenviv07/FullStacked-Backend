@@ -12,7 +12,7 @@ public class ExerciseLog {
     private String exerciseId;
     private String userId;
 
-    private List<SetLog> sets;
+    private List<SetLogHistory> sets;
     private String name;
     private String date; 
 
@@ -48,7 +48,7 @@ public class ExerciseLog {
         this.date = date;
     }
 
-    public static class SetLog {
+    public static class SetLogHistory{
         private int setNumber;
         private double weight;
         private int reps;
@@ -63,11 +63,11 @@ public class ExerciseLog {
         public void setNumber(int setNumber) { this.setNumber = setNumber; }
     }
 
-    public void setLog(List<SetLog> setLog){
+    public void setLog(List<SetLogHistory> setLog){
         this.sets = setLog;
     }
 
-    public List<SetLog> getSets(){
+    public List<SetLogHistory> getSets(){
         return sets;
     }
 }

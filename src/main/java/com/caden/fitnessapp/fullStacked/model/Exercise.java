@@ -1,5 +1,5 @@
 package com.caden.fitnessapp.fullStacked.model;
-
+import java.util.List;
 
 
 public class Exercise {
@@ -7,9 +7,8 @@ public class Exercise {
     private String id;
 
     private List<SetLog> sets; 
-    private int sets;
     private String exercise;
-    private double weight;
+    
 
     //Filled in from api 
     private String muscleGroup;
@@ -19,16 +18,8 @@ public class Exercise {
         return id;
     }
 
-    public String setId(){
+    public void setId(String id){
         this.id = id;
-    }
-
-    public int getReps() {
-        return reps;
-    }
-
-    public void setReps(int reps) {
-        this.reps = reps;
     }
 
     public String getExercise() {
@@ -37,14 +28,6 @@ public class Exercise {
 
     public void setExercise(String exercise) {
         this.exercise = exercise;
-    }
-
-    public double getWeight() {
-        return weight;
-    }
-
-    public void setWeight(double weight) {
-        this.weight = weight;
     }
 
     public String getMuscleGroup(){
@@ -63,7 +46,7 @@ public class Exercise {
         this.equipment = equipment;
     }
 
-    class SetLog {
+    public static class SetLog {
         private int setNumber;
         private double weight;
         private int reps;
@@ -71,10 +54,10 @@ public class Exercise {
         public double getWeight() { return weight; }
         public void setWeight(double weight) { this.weight = weight; }
 
-        public double getReps() { return reps; }
-        public void setReps(int reps) { this.weight = reps; }
+        public int getReps() { return reps; }
+        public void setReps(int reps) { this.reps = reps; }
 
-        public double getNumber() { return setNumber; }
+        public int getNumber() { return setNumber; }
         public void setNumber(int setNumber) { this.setNumber = setNumber; }
     }
 
