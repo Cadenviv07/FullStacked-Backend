@@ -1,6 +1,5 @@
 package com.caden.fitnessapp.fullStacked.model;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,7 +7,7 @@ public class Workout {
    
     private String id;
 
-    private LocalDate date;
+    private String date;
 
     private String name;
 
@@ -16,11 +15,11 @@ public class Workout {
 
     private List<String> muscleTargets = new ArrayList<>();
     
-    public LocalDate getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(LocalDate date) {
+    public void setDate(String date) {
         this.date = date;
     }
 

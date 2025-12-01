@@ -4,9 +4,9 @@ import java.time.LocalDate;
 
 public class WorkoutRequest {
     private String name;
-    private LocalDate date;
+    private String date;
 
-    public LocalDate getDate() {
+    public String getDate() {
         return date;
     }
 
