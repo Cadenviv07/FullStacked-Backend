@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.caden.fitnessapp.fullStacked.repository.UserRepository;
 import com.caden.fitnessapp.fullStacked.dto.ExerciseRequest;
+import com.caden.fitnessapp.fullStacked.dto.ExerciseRequest.SetLogDto;
 import com.caden.fitnessapp.fullStacked.dto.ExerciseResponse;
 import com.caden.fitnessapp.fullStacked.dto.WorkoutRequest;
 import com.caden.fitnessapp.fullStacked.dto.WorkoutResponse;
@@ -105,7 +106,7 @@ public class WorkoutController{
         if (request.getSets() != null) {
             for (int i = 0; i < request.getSets().size(); i++) {
                
-                ExerciseRequest.SetLog setDto = request.getSets().get(i);
+                SetLogDto setDto = request.getSets().get(i);
                 
                 Exercise.SetLog setEntity = new Exercise.SetLog(); 
                 
@@ -149,7 +150,7 @@ public class WorkoutController{
         return ResponseEntity.ok(response);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/exercises/{id}")
     public ResponseEntity<ExerciseResponse> getExerciseById(@PathVariable String id){
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         User user = userRepository.findByUsername(username)

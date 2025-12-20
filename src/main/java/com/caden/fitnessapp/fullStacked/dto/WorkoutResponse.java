@@ -1,8 +1,11 @@
 package com.caden.fitnessapp.fullStacked.dto;
 
+
 import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import org.springframework.cglib.core.Local;
 
 import com.caden.fitnessapp.fullStacked.model.Workout;
 

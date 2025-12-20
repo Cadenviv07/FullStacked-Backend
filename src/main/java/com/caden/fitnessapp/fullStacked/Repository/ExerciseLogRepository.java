@@ -11,5 +11,5 @@ public interface ExerciseLogRepository extends MongoRepository<ExerciseLog, Loca
     
     List<ExerciseLog> findByUserIdAndDate(String userId, LocalDate date);
 
-    List<ExerciseLog> findByUserIdandDateBetween(String userId, LocalDate startDate, LocalDate endDate);
+    List<ExerciseLog> findByUserIdAndDateBetween(String userId, LocalDate startDate, LocalDate endDate);
 }
