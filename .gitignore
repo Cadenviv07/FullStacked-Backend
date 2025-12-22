@@ -6,6 +6,8 @@
 /data/*.mv.db
 /data/*.trace.db
 
+secrets.properties
+
 # Ignore OS files
 *.log
 .DS_Store
