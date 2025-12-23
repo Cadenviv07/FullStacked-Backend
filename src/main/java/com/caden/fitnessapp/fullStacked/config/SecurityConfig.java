@@ -61,7 +61,8 @@ public class SecurityConfig {
                 "/api/auth/register",
                 "/api/auth/login",
                 "/api/auth/verify",
-                "/api/auth/sendVerification"
+                "/api/auth/sendVerification",
+                "/error"
             ).permitAll()
             .anyRequest().authenticated()
         );

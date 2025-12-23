@@ -42,21 +42,34 @@ public class WorkoutController{
     @Autowired
     private ExerciseInfoService exerciseInfoService;
 
-    @PostMapping
-    public ResponseEntity<String> createWorkout(@RequestBody WorkoutRequest workoutRequest){
+    public ResponseEntity<?> createWorkout(@RequestBody WorkoutRequest workoutRequest) {
+        System.out.println("--- START CREATE WORKOUT ---");
+        try {
+            String username = SecurityContextHolder.getContext().getAuthentication().getName();
+            System.out.println("1. Authenticated User: " + username);
 
-        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+            User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("Error: User " + username + " not found in DB"));
+            System.out.println("2. User found in DB: " + user.getEmail());
 
-        User user = userRepository.findByUsername(username)
-            .orElseThrow(() -> new RuntimeException("User not found"));
 
-        Workout workout = new Workout();
-        workout.setDate(workoutRequest.getDate());
-        workout.setWorkout(workoutRequest.getWorkout());
-        user.getWorkouts().add(workout);
-        userRepository.save(user);
-        
-        return ResponseEntity.ok("Workout created succsesfully");
+            Workout workout = new Workout();
+            workout.setWorkout(workoutRequest.getWorkout());
+            workout.setDate(workoutRequest.getDate());
+            
+            user.getWorkouts().add(workout);
+            System.out.println("4. Workout added to list locally");
+
+            userRepository.save(user);
+            System.out.println("5. User saved to MongoDB successfully");
+
+            return ResponseEntity.ok("Workout created successfully");
+
+        } catch (Exception e) {
+            System.err.println("!!! CRASH IN CONTROLLER !!!");
+            e.printStackTrace(); // This prints the EXACT line number and error to your terminal
+            return ResponseEntity.status(500).body("Internal Error: " + e.getMessage());
+        }
     }
 
     @PostMapping("/{workoutId}/exercises")
