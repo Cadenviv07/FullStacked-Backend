@@ -57,6 +57,10 @@ public class WorkoutController{
             workout.setWorkout(workoutRequest.getWorkout());
             workout.setDate(workoutRequest.getDate());
             
+            if(user.getWorkouts() == null){
+                user.setWorkouts(new ArrayList<>());
+            }
+
             user.getWorkouts().add(workout);
             System.out.println("4. Workout added to list locally");
 

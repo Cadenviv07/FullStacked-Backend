@@ -5,8 +5,8 @@ import java.time.LocalDate;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 public class WorkoutRequest {
-    private String name;
-    
+    private String workout;
+
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate date;
 
@@ -19,11 +19,11 @@ public class WorkoutRequest {
     }
 
     public String getWorkout(){
-        return name;
+        return workout;
     }
 
     public void setWorkout(String name){
-        this.name = name;
+        this.workout = name;
     }
 
 }
