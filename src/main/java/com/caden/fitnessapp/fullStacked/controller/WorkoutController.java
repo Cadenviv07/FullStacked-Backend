@@ -114,7 +114,7 @@ public class WorkoutController{
         if (isNew) {
             exercise = new Exercise();
             exercise.setExercise(request.getExercise());
-    
+            exercise.setRoe(request.getRoe());
             exercise.setLog(new ArrayList<>()); 
             workout.getExercises().add(exercise); 
         } else {

@@ -8,6 +8,7 @@ public class Exercise {
 
     private List<SetLog> sets; 
     private String exercise;
+    private String roe;
     
 
     //Filled in from api 
@@ -20,6 +21,14 @@ public class Exercise {
 
     public void setId(String id){
         this.id = id;
+    }
+
+    public String getRoe() {
+        return roe;
+    }
+
+    public void setRoe(String roe){
+        this.roe = roe;
     }
 
     public String getExercise() {
