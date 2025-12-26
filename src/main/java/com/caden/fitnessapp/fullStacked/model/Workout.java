@@ -35,6 +35,10 @@ public class Workout {
     public String getId(){
         return id;
     }
+
+    public void setId(String id){
+        this.id = id;
+    }
     
     public List<Exercise> getExercises() { return exercises;}
     public List<String> getMuscleTargets() { return muscleTargets;}

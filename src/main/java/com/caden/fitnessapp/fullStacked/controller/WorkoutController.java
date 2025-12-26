@@ -1,9 +1,11 @@
 package com.caden.fitnessapp.fullStacked.controller;
 
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +33,7 @@ import com.caden.fitnessapp.fullStacked.model.Workout;
 import com.caden.fitnessapp.fullStacked.service.ExerciseInfoService;
 
 @RestController
-@RequestMapping("/workouts")
+@RequestMapping("/api/workouts")
 @CrossOrigin(origins = "http://localhost:3000")
 public class WorkoutController{
     
@@ -42,6 +44,7 @@ public class WorkoutController{
     @Autowired
     private ExerciseInfoService exerciseInfoService;
 
+    @PostMapping
     public ResponseEntity<?> createWorkout(@RequestBody WorkoutRequest workoutRequest) {
         System.out.println("--- START CREATE WORKOUT ---");
         try {
@@ -52,10 +55,19 @@ public class WorkoutController{
                 .orElseThrow(() -> new RuntimeException("Error: User " + username + " not found in DB"));
             System.out.println("2. User found in DB: " + user.getEmail());
 
+            System.out.println("DEBUG: Received Date String: " + workoutRequest.getDate());
 
             Workout workout = new Workout();
+
+            workout.setId(UUID.randomUUID().toString());
+
             workout.setWorkout(workoutRequest.getWorkout());
-            workout.setDate(workoutRequest.getDate());
+
+            if (workoutRequest.getDate() == null || workoutRequest.getDate().isEmpty()) {
+                workout.setDate(LocalDate.now());
+            } else {
+                workout.setDate(LocalDate.parse(workoutRequest.getDate()));
+            }
             
             if(user.getWorkouts() == null){
                 user.setWorkouts(new ArrayList<>());
@@ -67,7 +79,7 @@ public class WorkoutController{
             userRepository.save(user);
             System.out.println("5. User saved to MongoDB successfully");
 
-            return ResponseEntity.ok("Workout created successfully");
+            return ResponseEntity.ok(workout);
 
         } catch (Exception e) {
             System.err.println("!!! CRASH IN CONTROLLER !!!");
