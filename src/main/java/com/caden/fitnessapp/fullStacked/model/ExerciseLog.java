@@ -2,6 +2,7 @@ package com.caden.fitnessapp.fullStacked.model;
 
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.data.annotation.Id;
@@ -14,7 +15,7 @@ public class ExerciseLog {
 
     private List<SetLogHistory> sets;
     private String name;
-    private String date; 
+    private LocalDate date; 
 
 
     public void setExerciseId(String id){
@@ -40,11 +41,11 @@ public class ExerciseLog {
         this.name = name;
     }
 
-    public String getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    public void setDate(LocalDate date) {
         this.date = date;
     }
 
