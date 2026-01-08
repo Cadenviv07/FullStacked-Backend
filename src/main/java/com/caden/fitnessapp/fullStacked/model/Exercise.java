@@ -1,5 +1,6 @@
 package com.caden.fitnessapp.fullStacked.model;
 import java.util.List;
+import com.fasterxml.jackson.annotation.JsonAlias;
 
 
 public class Exercise {
@@ -7,11 +8,12 @@ public class Exercise {
     private String id;
 
     private List<SetLog> sets; 
+
     private String exercise;
-    private String roe;
     
 
     //Filled in from api 
+    @JsonAlias("target")
     private String muscleGroup;
     private String equipment;
     
@@ -21,14 +23,6 @@ public class Exercise {
 
     public void setId(String id){
         this.id = id;
-    }
-
-    public String getRoe() {
-        return roe;
-    }
-
-    public void setRoe(String roe){
-        this.roe = roe;
     }
 
     public String getExercise() {

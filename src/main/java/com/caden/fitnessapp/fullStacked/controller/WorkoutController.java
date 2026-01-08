@@ -114,7 +114,6 @@ public class WorkoutController{
         if (isNew) {
             exercise = new Exercise();
             exercise.setExercise(request.getExercise());
-            exercise.setRoe(request.getRoe());
             exercise.setLog(new ArrayList<>()); 
             workout.getExercises().add(exercise); 
         } else {
@@ -125,8 +124,12 @@ public class WorkoutController{
 
         exercise = exerciseInfoService.getExerciseInfo(exercise); 
         
+        String muscleGroup = exercise.getMuscleGroup();
 
-        
+        if(muscleGroup == null || muscleGroup.isEmpty()){
+            muscleGroup = "";
+            exercise.setMuscleGroup(muscleGroup);
+        }
 
         if (!workout.getMuscleTargets().contains(exercise.getMuscleGroup())) {
             workout.getMuscleTargets().add(exercise.getMuscleGroup());

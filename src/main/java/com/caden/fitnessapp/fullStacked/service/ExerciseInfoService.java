@@ -36,7 +36,7 @@ public class ExerciseInfoService {
         } else {
             try {
                 HttpRequest request = HttpRequest.newBuilder()
-                        .uri(URI.create("https://exercisedb.p.rapidapi.com/exercises/name/" + exercise.getExercise()))
+                        .uri(URI.create("https://exercisedb.p.rapidapi.com/exercises/name/" + exercise.getExercise().trim().toLowerCase()))
                         .header("x-rapidapi-key", apiKey)
                         .header("x-rapidapi-host", apiHost)
                         .GET()
